@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=1]
+
+[node name="Node2D" type="Sprite"]
+position = Vector2( 128, 0 )
+
+[node name="2" type="Sprite" parent="."]
+modulate = Color( 0.435294, 0.305882, 0.0352941, 1 )
+position = Vector2( 0.0650492, 31.1514 )
+rotation = -0.405812
+scale = Vector2( 0.125, 0.733137 )
+texture = ExtResource( 1 )
+offset = Vector2( -0.950256, -31.3825 )
+
+[node name="5" type="Sprite" parent="."]
+modulate = Color( 0.435294, 0.305882, 0.0352941, 1 )
+position = Vector2( 0.193039, 31.2559 )
+rotation = -0.88605
+scale = Vector2( 0.125, 0.465533 )
+texture = ExtResource( 1 )
+offset = Vector2( -0.950256, -31.3825 )
+
+[node name="3" type="Sprite" parent="."]
+modulate = Color( 0.435294, 0.305882, 0.0352941, 1 )
+position = Vector2( -0.0184178, 31.251 )
+rotation = 0.697668
+scale = Vector2( 0.125, 0.522723 )
+texture = ExtResource( 1 )
+offset = Vector2( -0.950256, -31.3825 )
+
+[node name="4" type="Sprite" parent="."]
+modulate = Color( 0.435294, 0.305882, 0.0352941, 1 )
+position = Vector2( -0.0092621, 31.1794 )
+rotation = 0.127265
+scale = Vector2( 0.125, 0.639545 )
+texture = ExtResource( 1 )
+offset = Vector2( -0.950256, -31.3825 )

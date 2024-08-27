@@ -1,0 +1,32 @@
+[gd_scene format=2]
+
+[node name="CenterContainer" type="CenterContainer"]
+pause_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="lines" type="VBoxContainer" parent="."]
+margin_left = 475.0
+margin_top = 248.0
+margin_right = 548.0
+margin_bottom = 352.0
+custom_constants/separation = 25
+alignment = 1
+
+[node name="text" type="Label" parent="lines"]
+pause_mode = 2
+margin_right = 73.0
+margin_bottom = 14.0
+text = "Game Over"
+
+[node name="retry" type="Button" parent="lines"]
+margin_top = 39.0
+margin_right = 73.0
+margin_bottom = 59.0
+text = "Retry"
+
+[node name="exit" type="Button" parent="lines"]
+margin_top = 84.0
+margin_right = 73.0
+margin_bottom = 104.0
+text = "Exit"

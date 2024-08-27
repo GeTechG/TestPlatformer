@@ -1,0 +1,107 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://assets/Tileset.res" type="TileSet" id=1]
+[ext_resource path="res://prefabs/Player.tscn" type="PackedScene" id=2]
+[ext_resource path="res://scripts/WorldGenerator.gd" type="Script" id=3]
+[ext_resource path="res://prefabs/Enemy.tscn" type="PackedScene" id=4]
+[ext_resource path="res://scripts/EnemySpawner.gd" type="Script" id=5]
+[ext_resource path="res://scripts/Game.gd" type="Script" id=6]
+[ext_resource path="res://prefabs/GameOver.tscn" type="PackedScene" id=7]
+[ext_resource path="res://prefabs/YouWon.tscn" type="PackedScene" id=8]
+[ext_resource path="res://scripts/CoinSpawner.gd" type="Script" id=9]
+[ext_resource path="res://prefabs/Coin.tscn" type="PackedScene" id=10]
+
+[sub_resource type="OpenSimplexNoise" id=1]
+period = 10.0
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Label
+
+func update_info(need: int, collected: int):
+	self.text = str(collected) + \"/\" + str(need)
+"
+
+[node name="Game" type="Node"]
+script = ExtResource( 6 )
+needCollect = 5
+coinPrefab = ExtResource( 10 )
+enemyPrefab = ExtResource( 4 )
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = ExtResource( 1 )
+format = 1
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 98, 214 )
+
+[node name="Camera2D" parent="Player" index="2"]
+current = true
+limit_left = 0
+limit_top = 0
+
+[node name="Enemies" type="Node" parent="."]
+
+[node name="Coins" type="Node" parent="."]
+
+[node name="EnemySpawner" type="Node" parent="."]
+script = ExtResource( 5 )
+_worldSpawnerPath = NodePath("../WorldGenerator")
+enemyPrefab = ExtResource( 4 )
+_enemiesPath = NodePath("../Enemies")
+maxEnemies = null
+
+[node name="CoinSpawner" type="Node" parent="."]
+script = ExtResource( 9 )
+CELL_SIZE = null
+coinPrefab = ExtResource( 10 )
+_coinsPath = NodePath("../Coins")
+_worldSpawnerPath = NodePath("../WorldGenerator")
+
+[node name="WorldGenerator" type="Node" parent="."]
+script = ExtResource( 3 )
+_tilemapPath = NodePath("../TileMap")
+worldSize = Vector2( 40, 20 )
+noise = SubResource( 1 )
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GameOver" parent="CanvasLayer" instance=ExtResource( 7 )]
+visible = false
+margin_right = 73.0
+margin_bottom = 59.0
+
+[node name="lines" parent="CanvasLayer/GameOver" index="0"]
+margin_left = 512.0
+margin_top = 277.0
+margin_right = 585.0
+margin_bottom = 381.0
+
+[node name="YouWon" parent="CanvasLayer" instance=ExtResource( 8 )]
+
+[node name="collectInfo" type="Label" parent="CanvasLayer"]
+margin_right = 40.0
+margin_bottom = 14.0
+script = SubResource( 2 )
+
+[node name="control" type="Label" parent="CanvasLayer"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -14.0
+margin_right = 140.0
+text = "Controlling the arrows"
+
+[node name="saveTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="collect" from="Player" to="." method="_on_Player_collect"]
+[connection signal="dead" from="Player" to="." method="_on_Player_dead"]
+[connection signal="spawn_enemy" from="EnemySpawner" to="EnemySpawner" method="_on_EnemySpawner_spawn_enemy"]
+[connection signal="pressed" from="CanvasLayer/GameOver/lines/retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="CanvasLayer/GameOver/lines/exit" to="." method="_on_exit_pressed"]
+[connection signal="pressed" from="CanvasLayer/YouWon/lines/retry" to="." method="_on_retry_pressed"]
+[connection signal="pressed" from="CanvasLayer/YouWon/lines/exit" to="." method="_on_exit_pressed"]
+[connection signal="timeout" from="saveTimer" to="." method="_on_saveTimer_timeout"]
+
+[editable path="Player"]
+[editable path="CanvasLayer/GameOver"]
+[editable path="CanvasLayer/YouWon"]
